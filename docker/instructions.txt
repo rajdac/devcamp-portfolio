@@ -66,9 +66,31 @@ git branch -M main
 git push -u origin main
 
 
-
+git config --global user.email "rajdac@gmail.com"
+git config --global user.name "Rajeev Singh"
 git init
 git status
 git add README.md
 git add Gemfile
 git add .
+git commit -m 'Initial Commit'
+git log
+git remote add origin git@github.com:rajdac/devcamp-portfolio.git
+
+ git push -u origin master
+
+===================================================================================
+The authenticity of host 'github.com (13.234.210.38)' can't be established.
+RSA key fingerprint is SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'github.com,13.234.210.38' (RSA) to the list of known hosts.
+Counting objects: 96, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (81/81), done.
+Writing objects: 100% (96/96), 27.62 KiB | 1.97 MiB/s, done.
+Total 96 (delta 3), reused 0 (delta 0)
+remote: Resolving deltas: 100% (3/3), done.
+To github.com:rajdac/devcamp-portfolio.git
+ * [new branch]      master -> master
+Branch 'master' set up to track remote branch 'master' from 'origin'.
+=============================================================================
