@@ -1,0 +1,40 @@
+version: "3.8"
+services:
+  db:
+    build:
+      context: ./
+      dockerfile: docker/Dockerfile.db
+      args:
+         PG_VERSION: 11 
+    image: db:v1
+    container_name: db
+    restart: unless-stopped
+    volumes:
+      - /home/msuser1:/host_msuser1
+    environment:
+      POSTGRES_ROOT_PASSWORD: newapp
+      POSTGRES_DATABASE: newapp
+      POSTGRES_USER: newapp
+      POSTGRES_PASSWORD: newapp
+    ports:
+      - "5432:5432"        
+  app:
+    build:
+      context: ./
+      dockerfile: docker/Dockerfile.app
+      args:
+        APP_NAME: DevcampPortfolio
+    image: app:v1
+    container_name: app1 
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/DevcampPortfolio
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DB_USER: newapp
+      DB_NAME: DevcampPortfolio
+      DB_PASSWORD: newapp
+      DB_HOST: db 

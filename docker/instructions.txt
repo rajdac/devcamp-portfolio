@@ -1,0 +1,74 @@
+
+useful links
+-------------
+
+https://docs.docker.com/compose/rails/
+https://auth0.com/blog/ruby-on-rails-killer-workflow-with-docker-part-1/
+https://chartio.com/resources/tutorials/how-to-set-the-default-user-password-in-postgresql/
+https://docs.docker.com/compose/compose-file/#build
+
+
+
+docker-compose run app rails new . --force --database=postgresql -skip-bundle  and sudo chown -R $USER:$USER .
+                                or
+docker-compose run --user $(id -u):$(id -g) app rails new . --force --database=postgresql --skip-bundle
+
+docker-compose build
+
+Replace the contents of config/database.yml with the following:
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: <%= ENV['DB_HOST'] %>
+  database: <%= ENV['DB_NAME'] %>
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  pool: 5
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+
+
+docker-compose up
+
+docker system prune --all
+
+# remove all stopped containers
+docker rm $(docker ps -a -q)
+
+
+docker run --name app1 -it /bin/bash app:v1
+
+
+ssh-keygen -t rsa -b 4096 -C "rajdac@gmail.com"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+xclip -selection clipboard < ~/.ssh/id_rsa.pub
+
+
+or create a new repository on the command line
+echo "# devcamp-portfolio" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin git@github.com:rajdac/devcamp-portfolio.git  or https://github.com/rajdac/devcamp-portfolio.git
+git push -u origin main
+
+…or push an existing repository from the command line
+git remote add origin git@github.com:rajdac/devcamp-portfolio.git or https://github.com/rajdac/devcamp-portfolio.git
+git branch -M main
+git push -u origin main
+
+
+
+git init
+git status
+git add README.md
+git add Gemfile
+git add .

@@ -1,0 +1,64 @@
+ARG RUBY_VERSION
+
+FROM ruby:$RUBY_VERSION
+
+ARG BUNDLER_VERSION
+
+RUN echo 'gem: --no-rdoc --no-ri' >> /.gemrc
+
+
+
+ENV GEM_HOME /usr/local/bundle
+ENV PATH $GEM_HOME/bin:$PATH
+
+RUN gem update --system && \
+    gem install bundler:${BUNDLER_VERSION} \
+  && bundle config --global path "$GEM_HOME" \
+  && bundle config --global bin "$GEM_HOME/bin"
+
+
+RUN apt-get update
+RUN apt-get -y install git
+
+# don't create ".bundle" in all our apps
+ENV BUNDLE_APP_CONFIG $GEM_HOME
+
+ARG APP_NAME
+
+ENV HOME /home/app
+
+EXPOSE 3000
+
+RUN useradd -m -s /bin/bash app
+
+# Install apt based dependencies required to run Rails as
+# well as RubyGems. As the Ruby image itself is based on a
+# Debian image, we use apt-get to install those.
+
+
+RUN apt-get update -qq && apt-get install -y nano \
+build-essential  \
+postgresql-client
+
+# nodejs
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg -o /root/yarn-pubkey.gpg && apt-key add /root/yarn-pubkey.gpg
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get install -y --no-install-recommends nodejs yarn
+
+
+WORKDIR /home/app
+# Any root level installation
+
+#
+
+# Configure the main working directory. This is the base
+# directory used in any further RUN, COPY, and ENTRYPOINT
+# commands.
+
+run mkdir /opt/${APP_NAME}
+COPY Gemfile Gemfile.lock /opt/${APP_NAME}/
+WORKDIR /opt/${APP_NAME}
+COPY . /opt/${APP_NAME}
+ADD docker/start.sh /usr/local/sbin/start
+RUN chmod 755 /usr/local/sbin/start
+CMD ["/usr/local/sbin/start"]
