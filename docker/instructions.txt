@@ -94,3 +94,37 @@ To github.com:rajdac/devcamp-portfolio.git
  * [new branch]      master -> master
 Branch 'master' set up to track remote branch 'master' from 'origin'.
 =============================================================================
+
+git commit -m "updated readme title and instructions"
+
+==========================================================
+[master ce2c2fb] updated readme title and instructions
+ 2 files changed, 25 insertions(+), 1 deletion(-)
+===========================================================
+
+
+git push
+
+==========================================================================================================
+Warning: Permanently added the RSA host key for IP address '13.234.176.102' to the list of known hosts.
+Counting objects: 5, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (5/5), 1015 bytes | 1015.00 KiB/s, done.
+Total 5 (delta 4), reused 0 (delta 0)
+remote: Resolving deltas: 100% (4/4), completed with 4 local objects.
+To github.com:rajdac/devcamp-portfolio.git
+   c4095c9..ce2c2fb  master -> master
+============================================================================================================
+
+
+https://github.com/rajdac/devcamp-portfolio/commits (url to see all the commits)
+
+
+sublime ctrl + p to open any file
+
+open config/secrets.yml need to add this to git ignore
+
+git rm . -r --cached
+
+
