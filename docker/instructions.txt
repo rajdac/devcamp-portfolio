@@ -66,6 +66,8 @@ git branch -M main
 git push -u origin main
 
 
+
+Create repository in git then proceed to the following
 git config --global user.email "rajdac@gmail.com"
 git config --global user.name "Rajeev Singh"
 git init
@@ -76,8 +78,9 @@ git add .
 git commit -m 'Initial Commit'
 git log
 git remote add origin git@github.com:rajdac/devcamp-portfolio.git
-
- git push -u origin master
+git push -u origin master
+git remote -v
+git pull
 
 ===================================================================================
 The authenticity of host 'github.com (13.234.210.38)' can't be established.
@@ -118,6 +121,27 @@ To github.com:rajdac/devcamp-portfolio.git
 ============================================================================================================
 
 
+git checkout branch
+
+git branch
+
+git checkout -b my-great-feature
+
+git add somefile
+
+git commit -m 'this file'
+
+git push
+
+
+git checkout master
+
+
+git merge my-great-feature
+
+
+
+
 https://github.com/rajdac/devcamp-portfolio/commits (url to see all the commits)
 
 
@@ -127,4 +151,41 @@ open config/secrets.yml need to add this to git ignore
 
 git rm . -r --cached
 
+git add .
+
+===============================================
+    modified:   .gitignore
+	deleted:    config/secrets.yml
+	modified:   docker/instructions.txt
+===============================================
+
+git commit -m 'cleared git cache and updated instructions'
+
+===================================================
+
+[master dec5a6a] cleared git cache and updated instructions
+ 3 files changed, 41 insertions(+), 32 deletions(-)
+ delete mode 100644 config/secrets.yml
+
+
+git push
+
+============================================================
+Counting objects: 6, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 992 bytes | 992.00 KiB/s, done.
+Total 6 (delta 5), reused 0 (delta 0)
+remote: Resolving deltas: 100% (5/5), completed with 5 local objects.
+To github.com:rajdac/devcamp-portfolio.git
+   ce2c2fb..dec5a6a  master -> master
+
+
+================================================
+
+https://daringfireball.net/projects/markdown/syntax
+
+
+
+docker exec -it app1 /bin/bash
 
