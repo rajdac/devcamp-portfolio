@@ -18,6 +18,7 @@ default: &default
   adapter: postgresql
   encoding: unicode
   host: '172.17.0.1'
+  port: 5432
   database: 'newapp'
   username: 'newapp'
   password: 'newapp'
