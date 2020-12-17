@@ -38,6 +38,8 @@ docker-compose up
 
 docker system prune --all
 
+docker rmi -f $(docker images -f "dangling=true" -q)
+
 # remove all stopped containers
 docker rm $(docker ps -a -q)
 
@@ -188,6 +190,7 @@ https://daringfireball.net/projects/markdown/syntax
 
 
 docker exec -it app1 /bin/bash
+
 
 
 git push --set-upstream origin controller-generator

@@ -1,6 +1,9 @@
-APP_BASE_IMAGE="rails5.1.10"
 APP_NAME="DevcampPortfolio"
+RUBY_VERSION="2.4.10"
 BUNDLER_VERSION="2.0"
+PG_MAJOR="11"
+NODE_MAJOR="12"
+YARN_VERSION="1.13.0"
 
 # new rebuild run
 RUN_MODE="rebuild"
@@ -8,7 +11,7 @@ APP_BASE_PATH="/home/msuser1/workspace/projects"
 
 RAILS_ENV="development"
 RAILS_VERSION="5.1.6"
-APP_IMAGE="app1:v1"
+APP_IMAGE="app:v1"
 APP_CONTAINER="app1"
 GEM_HOME=${APP_BASE_PATH}/gem_home
 
@@ -20,7 +23,7 @@ echo "Stop container if present..................."
 #docker stop $APP_CONTAINER
 
 echo "Build the docker..........................."
-docker build -t ${APP_IMAGE} --build-arg APP_BASE_IMAGE=$APP_BASE_IMAGE --build-arg APP_NAME=$APP_NAME  -f docker/Dockerfile.app .
+docker build -t ${APP_IMAGE} --build-arg APP_NAME=$APP_NAME --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg RUBY_VERSION=$RUBY_VERSION --build-arg BUNDLER_VERSION=$BUNDLER_VERSION  --build-arg PG_MAJOR=$PG_MAJOR --build-arg NODE_MAJOR=$NODE_MAJOR --build-arg YARN_VERSION=$YARN_VERSION -f docker/Dockerfile.app .
 
 #sudo chown -R $USER:$USER .
 

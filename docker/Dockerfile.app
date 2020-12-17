@@ -1,123 +1,9 @@
-ARG RUBY_VERSION
+ARG APP_BASE_IMAGE
 
-FROM ruby:$RUBY_VERSION
+FROM $APP_BASE_IMAGE
 
 ARG APP_NAME
-ARG PG_MAJOR
-ARG NODE_MAJOR
-ARG YARN_VERSION
-ARG BUNDLER_VERSION
 
-ARG USER_ID
-ARG GROUP_ID
-
-RUN addgroup --gid $GROUP_ID msuser1
-RUN adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID msuser1
-
-ENV HOME /home/app
-
-RUN useradd -m -s /bin/bash app
-
-RUN mkdir -p /home/app
-
-WORKDIR /home/app
-# Any root level installation
-
-# Install apt based dependencies required to run Rails as
-# well as RubyGems. As the Ruby image itself is based on a
-# Debian image, we use apt-get to install those.
-
-# Common dependencies
-RUN apt-get update -qq \
-  && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
-    build-essential \
-    software-properties-common \
-    gnupg2 \
-    curl \
-    less \
-    git \
-  && apt-get clean \
-  && rm -rf /var/cache/apt/archives/* \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-  && truncate -s 0 /var/log/*log
-
-# Add PostgreSQL to sources list
-RUN curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
-  && echo 'deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main' $PG_MAJOR > /etc/apt/sources.list.d/pgdg.list
-
-# Add NodeJS to sources list
-RUN curl -sL https://deb.nodesource.com/setup_$NODE_MAJOR.x | bash -
-
-# Add Yarn to the sources list
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-  && echo 'deb http://dl.yarnpkg.com/debian/ stable main' > /etc/apt/sources.list.d/yarn.list
-
-
-# Install dependencies
-COPY docker/Aptfile /tmp/Aptfile
-
-# https://docs.datastax.com/en/archived/cassandra/3.0/cassandra/install/installOpenJdkDeb.html
-# RUN add-apt-repository ppa:openjdk-r/ppa
-# RUN apt-get update
-# RUN apt-get install -y openjdk-8-jdk
-# RUN apt-get install -y openjdk-8-jre
-# RUN update-alternatives --config java
-# RUN update-alternatives --config javac
-
-RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrade && \
-  DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
-    libxslt-dev libxml2-dev \
-    default-libmysqlclient-dev \
-    libpq-dev \
-    zlib1g-dev \
-    libssl-dev \
-    libreadline6-dev \
-    libyaml-dev \
-    postgresql-client-$PG_MAJOR \
-    nodejs \
-    yarn=$YARN_VERSION-1 \
-    $(cat /tmp/Aptfile | xargs) && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
-    truncate -s 0 /var/log/*log
-
-
-# RUN apt-get install -q -y supervisor
-# RUN service supervisor stop   
-
-# Configure bundler
-ENV LANG=C.UTF-8 \
-  BUNDLE_JOBS=4 \
-  BUNDLE_RETRY=3
-
-# Uncomment this line if you store Bundler settings in the project's root
-# ENV BUNDLE_APP_CONFIG=.bundle
-
-# Uncomment this line if you want to run binstubs without prefixing with `bin/` or `bundle exec`
-# ENV PATH /app/bin:$PATH
-
-# Upgrade RubyGems and install required Bundler version
-# See https://github.com/evilmartians/terraforming-rails/pull/24 for discussion
-
-
-RUN echo 'gem: --no-rdoc --no-ri' >> /.gemrc
-
-
-ENV GEM_HOME /usr/local/bundle
-ENV PATH $GEM_HOME/bin:$PATH
-
-
-RUN gem update --system && \
-    rm /usr/local/lib/ruby/gems/*/specifications/default/bundler-*.gemspec && \
-    gem uninstall bundler && \
-    gem install bundler -v $BUNDLER_VERSION \
-    && bundle config --global path "$GEM_HOME" \
-    && bundle config --global bin "$GEM_HOME/bin"
-
-# don't create ".bundle" in all our apps
-ENV BUNDLE_APP_CONFIG $GEM_HOME
-
-EXPOSE 3000
 
 # Configure the main working directory. This is the base
 # directory used in any further RUN, COPY, and ENTRYPOINT
@@ -129,6 +15,15 @@ COPY Gemfile.lock /opt/${APP_NAME}/Gemfile.lock
 WORKDIR /opt/${APP_NAME}
 COPY . /opt/${APP_NAME}/
 RUN chown -R msuser1:msuser1 /opt/${APP_NAME}
+
+COPY docker/entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
 ADD docker/start.sh /usr/local/sbin/start
-RUN chmod 755 /usr/local/sbin/start
+RUN chmod +x /usr/local/sbin/start
+
+#started each time container is started
+ENTRYPOINT ["entrypoint.sh"]
+EXPOSE 3000
+
+
 CMD ["/usr/local/sbin/start"]
