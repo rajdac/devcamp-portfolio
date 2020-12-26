@@ -26,7 +26,8 @@ puts "5 skills created"
 	Portfolio.create!( title: "Portfolio title: #{portfolio_item}",
 		subtitle: "My Greate Service",
 		body: "body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler body Text filler ",
-		main_image: "https://via.placeholder.com/600x400",		
+		main_image: "https://via.placeholder.com/600x400",
+		thumb_image: "https://via.placeholder.com/350x200",	
 		)
 end
 

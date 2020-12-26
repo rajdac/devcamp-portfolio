@@ -19,7 +19,8 @@ if [ $RUN_MODE = 'new' ]
 then
     bundle install
     echo "Creating new rails app.......# {$APP_NAME}................"
-    rails new . --force --database=postgresql --skip-bundle
+    #rails new . --force --database=postgresql --skip-bundle
+    rails new . --force --database=postgresql 
 else
     if [ $RUN_MODE = 'rebuild' ]
     then

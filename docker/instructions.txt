@@ -60,7 +60,15 @@ git add README.md
 git commit -m "first commit"
 git branch -M main
 git remote add origin git@github.com:rajdac/devcamp-portfolio.git  or https://github.com/rajdac/devcamp-portfolio.git
+git remote set-url origin git@github.com:rajdac/devcamp-portfolio.git # for changing
 git push -u origin main
+
+
+Switching remote URLs from HTTPS to SSH
+Open Terminal .
+Change the current working directory to your local project.
+Change your remote's URL from HTTPS to SSH with the git remote set-url command. $ git remote set-url origin git@github.com:USERNAME/REPOSITORY.git.
+Verify that the remote URL has changed.
 
 …or push an existing repository from the command line
 git remote add origin git@github.com:rajdac/devcamp-portfolio.git or https://github.com/rajdac/devcamp-portfolio.git
