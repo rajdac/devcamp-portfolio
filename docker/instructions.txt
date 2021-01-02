@@ -57,7 +57,7 @@ docker rm $(docker ps -a -q)
 
 docker run --name app1 -it /bin/bash app:v1
 
-
+sudo apt-get install xclip
 ssh-keygen -t rsa -b 4096 -C "rajdac@gmail.com"
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa
