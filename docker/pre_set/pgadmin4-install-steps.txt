@@ -1,0 +1,17 @@
+#Open your terminal and enter the command below
+
+sudo nano /etc/apt/sources.list.d/pgdg.list
+
+# When nano editor opens up, copy and paste the line below into it
+
+deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main
+#And then press Ctrl + S to save and then exit the nano editor.
+
+#Afterwhich, open your terminal again and then run the command below:
+
+sudo wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt update
+
+#Finally, run the command to install pgadmin4 and pgadmin4-apache2
+
+sudo apt install pgadmin4 pgadmin4-apache2
