@@ -15,3 +15,7 @@ sudo apt update
 #Finally, run the command to install pgadmin4 and pgadmin4-apache2
 
 sudo apt install pgadmin4 pgadmin4-apache2
+
+# All the above no longer work use https://www.tecmint.com/install-postgresql-and-pgadmin-in-ubuntu/
+
+
